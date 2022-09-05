@@ -1,0 +1,80 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+      GitHub's API rate limit has been reached. It will be reset in one minute.
+    </div>
+  </div>
+
+  <div class="example-table-container">
+
+    <table mat-table [dataSource]="data" class="example-table"
+           matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <!--<mat-checkbox (change)="$event ? toggleAllRows() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>-->
+          <mat-checkbox>
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox>
+          </mat-checkbox>
+          <!--<mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="console.log($event)"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>-->
+        </td>
+      </ng-container>
+      <!-- Number Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header disableClear *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+      </ng-container>
+
+      <!-- Image Column -->
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Image</th>
+        <td mat-cell *matCellDef="let row">
+          <img alt="thumbnail" src="{{row.thumbnail.path}}/standard_small.{{row.thumbnail.extension}}">
+        </td>
+      </ng-container>
+
+      <!-- Modified Column -->
+      <ng-container matColumnDef="modified">
+        <th mat-header-cell *matHeaderCellDef >
+          Created
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.modified | date}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [pageSize]="10"
+                 aria-label="Select page of GitHub search results">
+  </mat-paginator>
+</div>
