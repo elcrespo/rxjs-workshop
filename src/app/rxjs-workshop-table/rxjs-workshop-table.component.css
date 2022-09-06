@@ -41,3 +41,8 @@ table {
 .mat-column-created {
   max-width: 124px;
 }
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

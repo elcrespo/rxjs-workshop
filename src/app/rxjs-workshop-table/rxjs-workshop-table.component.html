@@ -8,6 +8,11 @@
   </div>
 
   <div class="example-table-container">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Hulk" #input>
+    </mat-form-field>
+
 
     <table mat-table [dataSource]="data" class="example-table"
            matSort matSortActive="name" matSortDisableClear matSortDirection="asc">

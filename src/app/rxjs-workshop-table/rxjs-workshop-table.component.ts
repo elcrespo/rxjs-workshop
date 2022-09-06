@@ -1,8 +1,6 @@
 import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, SortDirection} from '@angular/material/sort';
-import {merge, Observable, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {MarvelResults, RxjsWorkshopTableService} from "./rxjs-workshop-table.service";
 
 @Component({
@@ -35,5 +33,9 @@ export class RxjsWorkshopTableComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+  }
+
+  applyFilter($event: KeyboardEvent) {
+    
   }
 }
