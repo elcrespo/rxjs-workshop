@@ -1,0 +1,18 @@
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 100px;
+    position: relative;
+}
+
+.workshop-tag {
+    position: absolute;
+    padding: 20px;
+    right: -20px;
+    top: 80px;
+    box-shadow: 10px 10px 13px -4px rgba(0,0,0,0.36);
+    z-index: 99;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(90deg, rgba(96,94,125,1) 0%, rgba(79,79,161,1) 35%, rgba(44,193,223,1) 100%);
+}

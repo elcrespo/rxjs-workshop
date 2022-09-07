@@ -8,7 +8,7 @@
   </div>
 
   <div class="example-table-container">
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" class="workshop-table__filter">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Hulk" #input>
     </mat-form-field>
@@ -19,7 +19,7 @@
 
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef class="workshop-table__checkbox">
           <!--<mat-checkbox (change)="$event ? toggleAllRows() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
                         [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -47,7 +47,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell mat-sort-header disableClear *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        <td mat-cell *matCellDef="let row" class="workshop-table__name">{{row.name}}</td>
       </ng-container>
 
       <!-- Description Column -->
@@ -59,7 +59,7 @@
       <!-- Image Column -->
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef>Image</th>
-        <td mat-cell *matCellDef="let row">
+        <td mat-cell *matCellDef="let row" class="workshop-table__img">
           <img alt="thumbnail" src="{{row.thumbnail.path}}/standard_small.{{row.thumbnail.extension}}">
         </td>
       </ng-container>
@@ -69,7 +69,7 @@
         <th mat-header-cell *matHeaderCellDef >
           Created
         </th>
-        <td mat-cell *matCellDef="let row">{{row.modified | date}}</td>
+        <td mat-cell *matCellDef="let row" class="workshop-table__date">{{row.modified | date}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -80,6 +80,7 @@
   <mat-paginator [length]="resultsLength"
                  [pageSizeOptions]="pageSizeOptions"
                  [pageSize]="10"
-                 aria-label="Select page of GitHub search results">
+                 aria-label="Select page of GitHub search results"
+                 class="workshop-table__paginator">
   </mat-paginator>
 </div>

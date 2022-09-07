@@ -6,8 +6,12 @@
 .example-table-container {
   position: relative;
   min-height: 200px;
-  max-height: 400px;
+  max-height: 600px;
   overflow: auto;
+}
+
+.example-table-container th {
+  text-align: center;
 }
 
 table {
@@ -45,4 +49,31 @@ table {
 .mat-form-field {
   font-size: 14px;
   width: 100%;
+}
+
+.workshop-table__filter {
+  padding: 0 24px;
+  width: 250px;
+}
+
+.workshop-table__checkbox {
+  padding-right: 24px;
+}
+
+.workshop-table__img img {
+  width: 120px;
+  padding: 5px;
+}
+
+.workshop-table__date {
+  white-space: nowrap;
+  padding-left: 5px;
+}
+
+.workshop-table__name {
+  padding: 5px;
+}
+
+.workshop-table__paginator {
+  background: linear-gradient(90deg, rgba(96,94,125,1) 0%, rgba(79,79,161,1) 35%, rgba(44,193,223,1) 100%);
 }
