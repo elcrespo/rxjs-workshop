@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Sort, SortDirection} from "@angular/material/sort";
 
 export interface MarvelResults {
   id: number;
@@ -26,10 +27,10 @@ export interface MarvelApi {
 
 export interface MarvelQueryParams {
   nameStartsWith?: string;
-  orderBy?: string;
   limit?: number;
   offset?: number;
   apikey?: string;
+  sort?: Sort;
 }
 
 @Injectable({
@@ -40,9 +41,11 @@ export class RxjsWorkshopTableService {
   constructor(private _httpClient: HttpClient) {}
   baseUrl = 'http://gateway.marvel.com/v1/public/';
 
-  getMarvelCharaters(queryParams: MarvelQueryParams = {}): Observable<MarvelApi> {
+  getMarvelCharacters(queryParams: MarvelQueryParams = {}): Observable<MarvelApi> {
     const apikey = '282bf23e6ebfd35ce4499d33d021bb19';
+    const { sort, ...mQueryParams} = queryParams;
+    const orderBy = sort?.direction === 'desc'? `-${sort.active}` : sort?.active || 'name';
     const requestUrl = `${this.baseUrl}characters`;
-    return this._httpClient.get<MarvelApi>(requestUrl, {params: {...queryParams, apikey}})
+    return this._httpClient.get<MarvelApi>(requestUrl, {params: {...mQueryParams, orderBy, apikey}})
   }
 }

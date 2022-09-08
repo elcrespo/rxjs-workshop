@@ -1,6 +1,6 @@
-import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, SortDirection} from '@angular/material/sort';
+import {Component, OnInit} from '@angular/core';
+import {PageEvent} from '@angular/material/paginator';
+import {Sort} from '@angular/material/sort';
 import {MarvelResults, RxjsWorkshopTableService} from "./rxjs-workshop-table.service";
 
 @Component({
@@ -8,7 +8,7 @@ import {MarvelResults, RxjsWorkshopTableService} from "./rxjs-workshop-table.ser
   templateUrl: './rxjs-workshop-table.component.html',
   styleUrls: ['./rxjs-workshop-table.component.css']
 })
-export class RxjsWorkshopTableComponent implements AfterViewInit, OnInit {
+export class RxjsWorkshopTableComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   displayedColumns: string[] = ['select', 'name', 'description','image', 'modified'];
   data: MarvelResults[] = [];
@@ -16,15 +16,10 @@ export class RxjsWorkshopTableComponent implements AfterViewInit, OnInit {
   isLoadingResults = true;
   isRateLimitReached = false;
 
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ts-ignore
-  @ViewChild(MatSort) sort: MatSort;
-
   constructor(private rxjsWorkshopTableService: RxjsWorkshopTableService) {}
 
   ngOnInit() {
-    this.rxjsWorkshopTableService.getMarvelCharaters().subscribe(
+    this.rxjsWorkshopTableService.getMarvelCharacters().subscribe(
       results => {
         this.isLoadingResults = false;
         this.data = results.data.results;
@@ -32,10 +27,16 @@ export class RxjsWorkshopTableComponent implements AfterViewInit, OnInit {
     )
   }
 
-  ngAfterViewInit() {
+  applyFilter($event: KeyboardEvent) {
+    const filterValue = ($event.target as HTMLInputElement).value;
+    console.log('filter', filterValue);
   }
 
-  applyFilter($event: KeyboardEvent) {
-    
+  paginatorEvent($event: PageEvent) {
+    console.log('paginatorEvent', $event);
+  }
+
+  onSortChange($event: Sort) {
+    console.log('sort change', $event);
   }
 }
