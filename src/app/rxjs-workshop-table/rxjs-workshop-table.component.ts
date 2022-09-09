@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import {Sort} from '@angular/material/sort';
 import {MarvelResults, RxjsWorkshopTableService} from "./rxjs-workshop-table.service";
+import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-rxjs-workshop-table',
@@ -38,5 +39,13 @@ export class RxjsWorkshopTableComponent implements OnInit {
 
   onSortChange($event: Sort) {
     console.log('sort change', $event);
+  }
+
+  selectAll($event: MatCheckboxChange) {
+    console.log('select all', $event);
+  }
+
+  onSelectRow(row: MarvelResults) {
+    console.log('row selected', row);
   }
 }
