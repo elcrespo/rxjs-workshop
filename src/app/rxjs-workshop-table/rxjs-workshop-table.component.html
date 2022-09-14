@@ -1,6 +1,6 @@
 <div class="example-container mat-elevation-z8">
   <div class="example-loading-shade"
-       *ngIf="isLoadingResults || isRateLimitReached">
+       *ngIf="isLoadingData$ | async as isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
     <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
       GitHub's API rate limit has been reached. It will be reset in one minute.
@@ -14,7 +14,7 @@
     </mat-form-field>
 
 
-    <table mat-table [dataSource]="data" class="example-table"
+    <table mat-table [dataSource]="results$" class="example-table"
            matSort matSortActive="name" matSortDisableClear matSortDirection="asc"
            (matSortChange)="onSortChange($event)">
 
@@ -26,12 +26,13 @@
                         [aria-label]="checkboxLabel()">
           </mat-checkbox>-->
           <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="selectAll($event)">
+                        (change)="selectAll($event)"
+                        [checked]="areAllSelected$ | async">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox (change)="onSelectRow(row)"
-          >
+                        [checked]="row.isSelected">
           </mat-checkbox>
           <!--<mat-checkbox (click)="$event.stopPropagation()"
                         (change)="console.log($event)"
@@ -79,7 +80,7 @@
     </table>
   </div>
 
-  <mat-paginator [length]="resultsLength"
+  <mat-paginator [length]="total$ | async"
                  [pageSizeOptions]="pageSizeOptions"
                  [pageSize]="10"
                  aria-label="Select page of GitHub search results"
