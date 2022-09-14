@@ -18,6 +18,7 @@ export class RxjsWorkshopTableComponent implements OnInit {
   results$ = this.rxjsWorkshopTableService.results$;
   total$ = this.rxjsWorkshopTableService.total$;
   isLoadingData$ = this.rxjsWorkshopTableService.isLoadingData$;
+  areAllSelected$ = this.rxjsWorkshopTableService.areAllSelected$;
   constructor(private rxjsWorkshopTableService: RxjsWorkshopTableService) {}
 
   ngOnInit() {
@@ -47,9 +48,11 @@ export class RxjsWorkshopTableComponent implements OnInit {
 
   selectAll($event: MatCheckboxChange) {
     console.log('select all', $event);
+    this.rxjsWorkshopTableService.setSelectAll($event.checked);
   }
 
   onSelectRow(row: MarvelResults) {
     console.log('row selected', row);
+    this.rxjsWorkshopTableService.setSelectRow(row);
   }
 }

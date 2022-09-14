@@ -12,7 +12,8 @@ export interface MarvelResults {
   thumbnail: {
     path: string;
     extension: string;
-  }
+  };
+  isSelected: boolean;
 }
 export interface MarvelApi {
   code: number;
@@ -34,6 +35,18 @@ export interface MarvelQueryParams {
   sort?: Sort;
 }
 
+export const initialRowState: MarvelResults = {
+  id: 0,
+  name: '',
+  description: '',
+  modified: '',
+  thumbnail: {
+    path: '',
+    extension: '',
+  },
+  isSelected: false
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +56,8 @@ export class RxjsWorkshopTableService {
   private paginatorSubject: BehaviorSubject<PageEvent> = new BehaviorSubject<PageEvent>({pageIndex: 0, pageSize: 10, length: 20});
   private filterSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private isLoadingDataSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private selectAllSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private selectRowSubject: BehaviorSubject<MarvelResults> = new BehaviorSubject<MarvelResults>(initialRowState);
 
   sort$: Observable<Sort> = this.sortSubject.asObservable();
   paginator$: Observable<PageEvent> = this.paginatorSubject.asObservable();
@@ -50,6 +65,7 @@ export class RxjsWorkshopTableService {
     debounceTime(500)
   );
   isLoadingData$ = this.isLoadingDataSubject.asObservable();
+  areAllSelected$: Observable<boolean> = this.selectAllSubject.asObservable();
 
   marvelQueryParams$: Observable<MarvelQueryParams> = combineLatest(
     [this.sort$, this.paginator$, this.filter$]
@@ -74,8 +90,15 @@ export class RxjsWorkshopTableService {
     shareReplay(1)
   );
 
-  results$: Observable<MarvelResults[]> = this.data$.pipe(
-    map(response => response.data.results)
+  results$: Observable<MarvelResults[]> = combineLatest([this.data$, this.areAllSelected$]).pipe(
+    map(([response, areAllSelected]) => {
+      return response.data.results.map(item => {
+        return {
+          ...item,
+          isSelected: areAllSelected
+        }
+      });
+    })
   );
 
   total$: Observable<number> = this.data$.pipe(
@@ -103,5 +126,13 @@ export class RxjsWorkshopTableService {
 
   setFilter(filter: string) {
     this.filterSubject.next(filter);
+  }
+
+  setSelectAll(checked: boolean): void {
+    this.selectAllSubject.next(checked);
+  }
+
+  setSelectRow(item: MarvelResults): void {
+    this.selectRowSubject.next(item);
   }
 }
